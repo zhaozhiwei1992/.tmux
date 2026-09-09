@@ -1,0 +1,54 @@
+# ============================================================================
+# ~/.config/tmux/tmux.conf.local —— oh-my-tmux 本地自定义（唯一生效的 local）
+#
+# 结构：本文件只做「引用上游模板 + 本机覆盖」，不再复制模板正文。
+#   1. 先 source 上游模板 .tmux.conf.local（git 仓库跟踪，随 upstream 更新）
+#   2. 下面只写本机自定义；同名变量/选项写在模板之后，后设者胜
+#
+# 更新上游：cd ~/.config/tmux && git pull upstream master
+#           重启 tmux 或 prefix r 后，新模板默认即生效，自定义永不冲突。
+# ============================================================================
+
+source-file /home/zhaozhiwei/.config/tmux/.tmux.conf.local
+
+# ============================================================================
+# 以下为覆盖 oh-my-tmux 主 conf / 模板默认的本机自定义
+# 总则：只写相对主 conf（.tmux.conf）与模板（.tmux.conf.local）的覆盖；
+#       上游已有的不要再抄。
+# ============================================================================
+
+# 复制选区时同时写入系统剪贴板（Linux 需要 xsel / xclip / wl-copy；模板默认 false）
+# 用 set-environment 而不是裸 VAR=value：嵌套 source-file 会排队执行，显式命令可确保覆盖发生在模板之后。
+set-environment -g tmux_conf_copy_to_os_clipboard true
+
+# reload（prefix r）时自动卸载未启用的插件（模板默认 false）
+set-environment -g tmux_conf_uninstall_plugins_on_reload true
+
+# 滚动历史：主 conf / 模板默认 5000，urxvt 已把滚动交给 tmux，加大缓冲（见 urxvt实践.org「urxvt × tmux」）
+set -g history-limit 10000
+
+# urxvt tab 键位迁到 tmux window（见 urxvt实践.org「urxvt × tmux」节）
+# S-←/→ 切 window、S-↓ 新建；想退回纯前缀：删掉下面三行（prefix C-h/C-l 仍可切 window）
+# 想「在哪开 tab 就落哪个目录」：S-down 改成 new-window -c '#{pane_current_path}'
+bind -n S-left  previous-window
+bind -n S-right next-window
+bind -n S-down  new-window
+
+# Pi / urxvt 需要扩展键：主 conf 只给 mintty/iTerm/WezTerm/ghostty 开，urxvt 不在名单里
+# csi-u 比 xterm 格式稳，避免 Pi 组合键识别异常
+set -g extended-keys on
+set -g extended-keys-format csi-u
+
+# ----------------------------------------------------------------------------
+# 注意：模板中的“# custom variables”区（weather()/online() 等 #{fn} 函数）
+# 必须在【本文件】里以 # 函数名() { ... } 形式定义才会被激活（主 conf 的
+# cut -c3- 探测只读 TMUX_CONF_LOCAL=本文件，不读被 source 的模板）。
+# 在模板里取消注释不生效。需要时把函数粘到下方“# EOF”与“# "$@"”之间，
+# 三行标记不可删。当前无需函数，故此处留空。
+# ----------------------------------------------------------------------------
+
+# EOF
+#
+# "$@"
+# # /!\ do not remove the previous line
+# #     do not write below this line
