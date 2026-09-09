@@ -1,0 +1,26 @@
+session_name: system-monitor
+windows:
+  - window_name: "监控中心"
+    layout: tiled  # 自动平铺布局，能较好地适配不同大小的终端
+    shell_command_before:
+      - cd ~/  # 所有面板的初始目录
+    panes:
+      # 面板1：系统信息
+      - shell_command:
+          - screenfetch 
+      # 面板1：综合系统状态
+      - shell_command:
+          - top  # 交互式进程查看器，直观展示CPU、内存、进程[6](@ref)
+
+      # 面板2：系统占用
+      - shell_command:
+          - df -h
+
+      # 面板5：关键服务日志
+      - shell_command:
+          - sudo dmesg |tail
+
+      # 面板6：自定义监控或备用终端
+      - shell_command:
+          - echo "自定义监控面板"
+          - echo "可在此处放置业务监控脚本"

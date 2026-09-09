@@ -1,0 +1,30 @@
+session_name: common-llm
+start_directory: "~/workspace/common-llm"
+windows:
+  # Window 1: 本地代码目录
+  - window_name: dev window
+    layout: tiled
+    shell_command_before:
+      - cd /home/zhaozhiwei/workspace/ifmis-4.1/common-llm # run as a first command in all panes
+    panes:
+      - shell_command: # pane no. 1
+          - cd server
+          - nvm use 22.14.0
+          - conda activate py_utils
+          - pi
+      - shell_command: # pane no. 2
+          - cd /home/zhaozhiwei/workspace/ifmis-4.1/common-llm/web/vue-frontend
+          - nvm use system
+          - conda activate py_utils
+          - pi
+  # Window 2: dify中间件
+  - window_name: "dify115.10"
+    panes:
+      - shell_command: ["ssh root@10.10.115.10"]
+
+  # Window 3: 开发服务器115.10监控
+  - window_name: "115.10"
+    layout: even-horizontal
+    panes:
+      - shell_command: ["ssh root@10.10.115.10"]
+

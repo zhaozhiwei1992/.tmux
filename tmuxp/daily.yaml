@@ -1,0 +1,9 @@
+# ~/.tmuxp/daily.yaml - 日常通用配置
+session_name: daily
+windows:
+  - window_name: "work"
+    panes:
+      - shell_command: ["cd ~/workspace"]
+  - window_name: "shell"
+    panes:
+      - shell_command: []
