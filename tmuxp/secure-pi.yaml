@@ -1,0 +1,10 @@
+session_name: secure-pi
+start_directory: "#{pwd}"
+shell_command_before:
+  - "" # 占位，确保各 pane 独立命令
+windows:
+  - window_name: secure-pi
+    panes:
+      - shell_command:
+          - ~/.local/bin/bwrap-pi . # pane 1：沙箱内 pi（断网 + home 只读 + 唯一写面=当前项目）
+
