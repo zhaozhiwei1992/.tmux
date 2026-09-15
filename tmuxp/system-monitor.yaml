@@ -1,16 +1,16 @@
 session_name: system-monitor
 windows:
   - window_name: "监控中心"
-    layout: tiled  # 自动平铺布局，能较好地适配不同大小的终端
+    layout: tiled # 自动平铺布局，能较好地适配不同大小的终端
     shell_command_before:
-      - cd ~/  # 所有面板的初始目录
+      - cd ~/ # 所有面板的初始目录
     panes:
       # 面板1：系统信息
       - shell_command:
-          - screenfetch 
+          - fastfetch
       # 面板1：综合系统状态
       - shell_command:
-          - top  # 交互式进程查看器，直观展示CPU、内存、进程[6](@ref)
+          - top # 交互式进程查看器，直观展示CPU、内存、进程[6](@ref)
 
       # 面板2：系统占用
       - shell_command:
